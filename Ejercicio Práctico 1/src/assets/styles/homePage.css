@@ -1,0 +1,25 @@
+.custom-img {
+    background-image: url('../img/hospital.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.custom-background {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 15px;
+    padding: .5rem 1rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 500; 
+}
+
+.mis-vis {
+    background-color: #f0f0f0;
+}
+
+.card-text {
+    text-align: justify;
+}

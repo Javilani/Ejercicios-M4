@@ -1,0 +1,28 @@
+.service-list {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se acomoden en una nueva fila cuando no hay espacio */
+    gap: 1rem; /* Agrega un espacio entre las tarjetas */
+    justify-content: space-around; /* Alinea las tarjetas con espacio alrededor */
+}
+
+.service-card {
+    flex: 1 1 300px; /* Cada tarjeta ocupa al menos 300px y puede crecer si hay espacio */
+    max-width: 100%; /* Evita que las tarjetas sean más grandes que su contenedor */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #f0f0f0; /* Fondo gris claro */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* Asegura que el contenido esté en una columna */
+    align-items: center; /* Centra el contenido dentro de cada tarjeta */
+    height: auto; /* Ajusta la altura según el contenido */
+}
+.service-card-text {
+    width: 300px;
+}
+
+@media (max-width: 576px) {
+    .service-card {
+        flex: 1 1 100%; /* En pantallas pequeñas, las tarjetas ocuparán el 100% del ancho */
+    }
+}

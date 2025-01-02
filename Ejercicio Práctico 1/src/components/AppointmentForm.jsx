@@ -1,14 +1,35 @@
 import PropTypes from "prop-types";
+import React from "react";
 
-export const AppointmentForm = ({ formData, onInputChange, onSubmit }) => {
+export const AppointmentForm = ({ formData, onInputChange, onSubmit, resetForm, error }) => {
+    let nameInput = null;
+
+    const setNameInputRef = (element) => {
+        nameInput = element;
+    };
+
+    const focusNameField = () => {
+        if (nameInput) {
+            nameInput.focus();
+        }
+    };
+
     return (
-        <div>
+        <React.Fragment>
             <h2>Formulario de Citas</h2>
             <div className="form-card">
                 <div className="card-body">
-                    <form className="contact-form" onSubmit={onSubmit}>
+                {error && <p className="error-message">{error}</p>} {/* Mostrar mensaje de error */}
+                    <form
+                        className="contact-form"
+                        onSubmit={(e) => {
+                            onSubmit(e);
+                            focusNameField(); // Enfocar después de enviar
+                        }}
+                    >
                         <div className="mb-3">
                             <input
+                                ref={setNameInputRef} // Callback ref
                                 type="text"
                                 name="name"
                                 className="form-control"
@@ -54,10 +75,23 @@ export const AppointmentForm = ({ formData, onInputChange, onSubmit }) => {
                                 Enviar
                             </button>
                         </div>
+                        <div className="d-grid gap-2 mt-2">
+                            <button
+                                type="button"
+                                className="btn-enviar"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    resetForm(); // Limpia el formulario
+                                    focusNameField(); // Enfoca el campo
+                                }}
+                            >
+                                Limpiar Formulario
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 
@@ -70,4 +104,6 @@ AppointmentForm.propTypes = {
     }).isRequired,
     onInputChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    resetForm: PropTypes.func.isRequired,
+    error: PropTypes.string,
 };

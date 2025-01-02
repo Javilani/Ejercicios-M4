@@ -3,6 +3,7 @@
 
 ## Menú de Navegación
 - [Ejercicio Práctico 1](#ejercicio-practico-1)  
+- [Ejercicio Práctico 2](#ejercicio-practico-2)  
 
 
 ## Ejercicio Práctico 1
@@ -140,22 +141,85 @@ El sistema de citas permite a los usuarios seleccionar un doctor, una fecha y un
 La aplicación se abrirá en http://localhost:5173/
 
 
-## Authors
+## Ejercicio Práctico 2
 
-- Javier Lagos
+### Renderización de Datos con DOM Virtual
+
+ReactJS utiliza el Virtual DOM para mejorar el rendimiento de las aplicaciones, como la interfaz del hospital. En lugar de actualizar directamente el DOM real cada vez que cambia el estado o las propiedades de un componente, React crea una copia del DOM en memoria llamada Virtual DOM. Luego, compara esta copia con el DOM anterior para identificar solo las diferencias, lo que permite realizar actualizaciones más rápidas y eficientes.
+
+Este proceso de comparación y actualización solo de los cambios necesarios reduce significativamente el tiempo y los recursos requeridos para actualizar la interfaz. Por ejemplo, si solo se actualiza un doctor en la lista, React solo modificará esa parte del DOM real, sin necesidad de volver a renderizar toda la lista. Esto mejora la velocidad y la experiencia del usuario, especialmente en aplicaciones con componentes dinámicos o grandes cantidades de datos, como los listados de doctores o servicios en un hospital.
+
+### Formulario de Citas Médicas con Referencias en React
+
+El componente, `AppointmentForm`, utiliza **referencias** en React para interactuar directamente con el DOM. Esto mejora la experiencia del usuario al permitir que el campo de nombre se enfoque automáticamente después de acciones clave como enviar o limpiar el formulario.
+
+- **Callback Ref**: Se utiliza `setNameInputRef` para asignar una referencia al campo de entrada de nombre.
+- **Enfoque Automático**: La función `focusNameField` se llama al enviar o limpiar el formulario, enfocando automáticamente el campo de nombre para facilitar la interacción.
+
+#### Uso de Fragmentos (`<React.Fragment>`) en el Formulario de Citas Médicas
+
+En este mismo componente utilizamos **fragmentos de React** (`<React.Fragment>`) para envolver múltiples elementos JSX sin introducir nodos adicionales en el DOM. Esto es útil para mantener un DOM limpio y eficiente, especialmente en aplicaciones grandes o complejas.
+
+- **Mantiene el DOM Limpio**: Al usar un fragmento, evitamos introducir elementos como `<div>` que no tienen relevancia semántica o funcional, reduciendo la complejidad del DOM.
+- **Mejora del Rendimiento**: Menos nodos en el DOM implican una mejora en el rendimiento, especialmente en aplicaciones con muchos componentes.
+- **Legibilidad del Código**: Facilita la estructura del componente al permitir que múltiples elementos JSX coexistan sin un contenedor adicional.
+
+### Uso de React Context para Gestión de Estado Global
+
+Se utilizó **React Context** para gestionar el estado global relacionado con los doctores en la aplicación. Esto nos permite compartir datos, como la lista de doctores y su estado de carga, entre múltiples componentes sin necesidad de pasar propiedades de manera manual a través de varios niveles de la jerarquía de componentes.
+
+- **Estado Centralizado**: Toda la información relacionada con los doctores (lista y estado de carga) está centralizada en el contexto, evitando redundancia en los componentes.
+- **Prop Drilling Eliminado**: No es necesario pasar manualmente las propiedades a través de varios niveles de componentes.
+- **Fácil Escalabilidad**: Si en el futuro necesitas compartir más datos o funcionalidades, simplemente los agregas al contexto.
+
+### Uso de PropTypes para Validar Propiedades en los Componentes
+
+Se implementó **PropTypes** para garantizar que los datos pasados a los componentes cumplan con los tipos esperados. Esto mejora la robustez de la aplicación al permitir identificar errores durante el desarrollo si las propiedades no coinciden con los tipos especificados.
+
+**Ejemplo**: El componente `DoctorCard` muestra información de un doctor, como su nombre, especialidad y años de experiencia. Usamos **PropTypes** para validar que las propiedades recibidas tienen los tipos correctos:
+
+        DoctorCard.propTypes = {
+                nombre: PropTypes.string.isRequired,
+                especialidad: PropTypes.string.isRequired,
+                aniosExperiencia: PropTypes.number.isRequired,
+        };
+
+### Uso de Componentes de Orden Superior (HOC)
+
+Se utilizó un **Componente de Orden Superior (HOC)** llamado `withExtraInfo` para añadir funcionalidades adicionales a componentes existentes sin modificar directamente su implementación. Este HOC permite gestionar eventos interactivos como mostrar u ocultar información adicional al interactuar con un componente.
+
+### Uso de React Profiler en el Componente `DoctorList`
+
+El Profiler se implementó para medir el tiempo de renderización del componente DoctorList, que muestra una lista de doctores obtenida de un contexto.
+- Función de callback para el Profiler:
+
+        const onRenderCallback = (
+                id, 
+                phase, 
+                actualDuration
+        ) => {
+                console.log(`Component: ${id}`);
+                console.log(`Phase: ${phase}`);
+                console.log(`Actual duration: ${actualDuration}ms`);
+        };
+
+- Envolviendo el Componente con `Profiler`:
+El componente DoctorList está envuelto en un Profiler para medir su rendimiento. Se le asigna un identificador único (id="DoctorList") y una función de callback (onRenderCallback) que se ejecuta después de cada renderizado.
+
+
+
 ## Screenshots
 
-- Uso de React Developer Tools:
-![App Screenshot](https://res.cloudinary.com/de2p3kdgv/image/upload/v1734559159/react-dev-tool_qnwgtb.png)
+- Uso del Componente de Orden Superior (HOC):
+![App Screenshot](https://res.cloudinary.com/de2p3kdgv/image/upload/v1735778260/servicio_mng29b.png)
 
 
-- Vista inicial de la página:
-![App Screenshot](https://res.cloudinary.com/de2p3kdgv/image/upload/v1734559170/homepage_brqkz3.png)
+- Enfoque Automático:
+![App Screenshot](https://res.cloudinary.com/de2p3kdgv/image/upload/v1735778255/formulario_chzudt.png)
 
 
-- Formulario de reserva de citas:
-![App Screenshot](https://res.cloudinary.com/de2p3kdgv/image/upload/v1734559177/cita_lsh5i7.png)
-
+- Implementación de `Profiler`:
+![App Screenshot](https://res.cloudinary.com/de2p3kdgv/image/upload/v1735778249/profiler_jndawu.png)
 ## Authors
 
 - Javier Lagos
